@@ -12,7 +12,7 @@ process BRESEQ {
   path(genome)
 
   output:
-  tuple val(sample), path('*.bam'), emit: bam
+  path('data/*.bam'), emit: bam
 
   script:
   """
@@ -21,5 +21,7 @@ process BRESEQ {
   --polymorphism-reject-surrounding-homopolymer-length 0 \\
   --polymorphism-score-cutoff 2 \\
   -r ${genome} ${fqs}
+
+  mv data/reference.bam data/${sample}.bam
   """
 }
