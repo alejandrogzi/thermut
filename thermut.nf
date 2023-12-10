@@ -5,6 +5,8 @@ nextflow.enable.dsl=2
 // modules
 include { TRIM } from './modules/trim'
 include { BRESEQ } from './modules/breseq'
+include { TIMECOURSE } from './modules/timecourse'
+include { FILTER_SNP } from './modules/snp'
 
 // subworkflows
 include { MAKE_GROUP } from './subworkflows/group'
@@ -21,5 +23,6 @@ workflow {
   fqs = MAKE_GROUP(group, dir).fastqs
   trim_fqs = TRIM(fqs, meta).trim_paired
   bams = BRESEQ(trim_fqs, gbk).bam.collect()
- // TIMECOURSE(bams, fasta)
+ // timecourse = TIMECOURSE(bams, fasta, group)
+ // snp = FILTER_SNP(timecourse)
 }
