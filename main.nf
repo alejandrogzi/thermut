@@ -127,7 +127,13 @@ workflow {
     out.mkdir()
 
     idx = INDEX(fasta)
+
+
     trim = TRIMMOMATIC(fastqs, out)
     bam = DEDUP(idx, trim)
     CONSENSUS(genelist, db, bam, fasta, out)
+
+    
+  
+
 }
