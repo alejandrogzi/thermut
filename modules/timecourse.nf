@@ -9,8 +9,10 @@ process TIMECOURSE {
   input:
   path(bams)
   path(fasta)
+  val group
 
   output:
+  tuple val(group), path("${group}.timecourse") into timecourse_ch
 
   script:
   """
@@ -22,10 +24,7 @@ process TIMECOURSE {
   bcftools concat -Oz -o output.vcf.gz output*.vcf.gz
   rm output.REL*.vcf.gz
 
-  ./timecourse.py --vcf ${sample}.mpileup --out ${sample}.timecourse 
+  ../../../bin/timecourse.py --vcf output.vcf.gz --output ${group}.timecourse
   """
 }
-
-
-
 
