@@ -7,6 +7,7 @@ include { TRIM } from './modules/trim'
 include { BRESEQ } from './modules/breseq'
 include { TIMECOURSE } from './modules/timecourse'
 include { FILTER_SNP } from './modules/snp'
+inclue { PVAL } from './modules/pval'
 
 // subworkflows
 include { MAKE_GROUP } from './subworkflows/group'
@@ -18,11 +19,12 @@ workflow {
   meta = params.meta
   group = params.group
   gbk = params.gbk
-  //fasta = params.fasta
+  fasta = params.fasta
 
   fqs = MAKE_GROUP(group, dir).fastqs
   trim_fqs = TRIM(fqs, meta).trim_paired
   bams = BRESEQ(trim_fqs, gbk).bam.collect()
- // timecourse = TIMECOURSE(bams, fasta, group)
- // snp = FILTER_SNP(timecourse)
+  timecourse = TIMECOURSE(bams, fasta, group)
+  snp = FILTER_SNP(timecourse)
+  pval = PVAL(snp)
 }
