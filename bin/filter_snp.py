@@ -11,32 +11,33 @@
 
 # -----------------------------------------------------
 
-__author__ = 'Alejandro Gonzales-Irribarren'
-__email__ = 'jose.gonzalesdezavala1@unmsm.edu.pe'
-__github__ = 'alejandrogzi'
-__version__ = '0.0.1'
-__credits__ = ['Benjamin H Good']
+__author__ = "Alejandro Gonzales-Irribarren"
+__email__ = "jose.gonzalesdezavala1@unmsm.edu.pe"
+__github__ = "alejandrogzi"
+__version__ = "0.0.1"
+__credits__ = ["Benjamin H Good"]
 
 # -----------------------------------------------------
 
-
-import lensky.pipeline.bin.genome as genome
+import genome
 import numpy as np
 import argparse
 
 # -----------------------------------------------------
 
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--timecourse", required=True ,help="Timecourse file")
+    parser.add_argument("-i", "--timecourse", required=True, help="Timecourse file")
     parser.add_argument("-p", "--population", required=True, help="Name of population")
     args = parser.parse_args()
     return args
 
+
 def filter_snp(timecourse: str, pop: str):
-    f_snp = open(f"./snp_{pop}.txt", "w")
     f_depth = open(f"./depth_{pop}.txt", "w")
-    
+    f_snp = open(f"./snp_{pop}.txt", "w")
+
     re_depth = []
     re_time = []
 
@@ -62,7 +63,7 @@ def filter_snp(timecourse: str, pop: str):
 
         re_depth = np.vstack(re_depth)
         median_depths = np.median(re_depth, axis=0)
-        alts = [0]*len(median_depths)
+        alts = [0] * len(median_depths)
 
         depth_line = f'REL606,0,Depth,{" ".join(map(str, re_time[0]))},{" ".join(map(str, alts))},{" ".join(map(str, median_depths))}\n'
         f_depth.write(depth_line)

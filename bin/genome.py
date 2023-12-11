@@ -6,11 +6,11 @@
 
 # -----------------------------------------------------
 
-__author__ = 'Alejandro Gonzales-Irribarren'
-__email__ = 'jose.gonzalesdezavala1@unmsm.edu.pe'
-__github__ = 'alejandrogzi'
-__version__ = '0.0.1'
-__credits__ = ['Benjamin H Good']
+__author__ = "Alejandro Gonzales-Irribarren"
+__email__ = "jose.gonzalesdezavala1@unmsm.edu.pe"
+__github__ = "alejandrogzi"
+__version__ = "0.0.1"
+__credits__ = ["Benjamin H Good"]
 
 # -----------------------------------------------------
 
@@ -337,8 +337,9 @@ def annotation_map() -> (dict, dict, dict):
         substitution_specific_synonymous_fraction,
     )
 
+
 def is_repeat(pos, pos_map):
     if pos in pos_map:
-        if pos_map[pos] == 'repeat':
+        if pos_map[pos] == "repeat":
             return True
     return False

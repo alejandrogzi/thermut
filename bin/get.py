@@ -1,5 +1,35 @@
 #!/usr/bin/env python3
 
+# -----------------------------------------------------
+
+# Download FASTQ files from ENA using aria2c.
+# This script is a modified version of fastq-dl, a tool
+# to download FASTQ files from SRA or ENA. The original
+# script can be found here: https://github.com/rpetit3/fastq-dl.
+#
+# The purpose of this script is to borrow some of the
+# functionality of fastq-dl to download FASTQ files but
+# make it portable, lightweight, and easy to run.
+
+# Usage:
+#
+# ./get.py -a <accession> -o <outdir> -m <max_attempts> \\
+# -s <sleep> -f <force> -g <group_by_experiment> -G <group_by_sample> -p <prefix>
+#
+# The base use case could be achieve just by:
+#
+# ./get.py -a <accession> -o <outdir>
+#
+# -----------------------------------------------------
+
+__author__ = "Alejandro Gonzales-Irribarren"
+__email__ = "jose.gonzalesdezavala1@unmsm.edu.pe"
+__github__ = "alejandrogzi"
+__version__ = "0.0.1"
+__credits__ = ["Benjamin H Good"]
+
+# -----------------------------------------------------
+
 import time
 import sys
 import re

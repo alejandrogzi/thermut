@@ -6,22 +6,13 @@
 
 # -----------------------------------------------------
 
-__author__ = 'Alejandro Gonzales-Irribarren'
-__email__ = 'jose.gonzalesdezavala1@unmsm.edu.pe'
-__github__ = 'alejandrogzi'
-__version__ = '0.0.1'
-__credits__ = ['Benjamin H Good']
+__author__ = "Alejandro Gonzales-Irribarren"
+__email__ = "jose.gonzalesdezavala1@unmsm.edu.pe"
+__github__ = "alejandrogzi"
+__version__ = "0.0.1"
+__credits__ = ["Benjamin H Good"]
 
 # -----------------------------------------------------
-
-__author__ = 'Alejandro Gonzales-Irribarren'
-__email__ = 'jose.gonzalesdezavala1@unmsm.edu.pe'
-__github__ = 'alejandrogzi'
-__version__ = '0.0.1'
-__credits__ = ['Benjamin H Good']
-
-# -----------------------------------------------------
-
 
 import numpy as np
 
