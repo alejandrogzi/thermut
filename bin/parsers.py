@@ -19,8 +19,8 @@ import numpy as np
 # -----------------------------------------------------
 
 
-GENOME = "/home/alejandro/Documents/projects/zimic/lensky/ref_genome/REL606.gbk"
-MASK = "/home/alejandro/Documents/projects/zimic/lensky/ref_genome/REL606.L20.G15.P0.M35.mask.gd"
+GENOME = "../supp/REL606.gbk"
+MASK = "../supp/REL606.L20.G15.P0.M35.mask.gd"
 
 
 def parse_genome():

@@ -343,3 +343,85 @@ def is_repeat(pos, pos_map):
         if pos_map[pos] == "repeat":
             return True
     return False
+
+
+def annotate_gene(position, position_gene_map):
+    if position in position_gene_map:
+        gene_name = position_gene_map[position]
+    else:
+        gene_name = "intergenic"
+
+    return gene_name
+
+
+def annotate_variant(position, allele, gene_data, position_gene_map):
+    (
+        gene_names,
+        gene_start_positions,
+        gene_end_positions,
+        promoter_start_positions,
+        promoter_end_positions,
+        gene_sequences,
+        strands,
+    ) = gene_data
+
+    # get gene
+    gene_name = annotate_gene(position, position_gene_map)
+
+    if allele.startswith("Depth"):
+        var_type = "unknown"
+    elif allele[1:3] == "->":
+        # a SNP, so annotate it
+        if gene_name == "intergenic":
+            var_type = "noncoding"
+        elif gene_name == "repeat":
+            var_type = "repeat"
+        else:
+            # must be in a real gene
+            # so get it
+            i = gene_names.index(gene_name)
+
+            gene_start_position = gene_start_positions[i]
+            gene_end_position = gene_end_positions[i]
+            promoter_start_position = promoter_start_positions[i]
+            promoter_end_position = promoter_end_positions[i]
+            gene_sequence = gene_sequences[i]
+            strand = strands[i]
+
+            if position < gene_start_position or position > gene_end_position:
+                # var_type='promoter'
+                var_type = "noncoding"  # (promoter)
+            else:
+                if gene_name.startswith("tRNA") or gene_name.startswith("rRNA"):
+                    var_type = "noncoding"
+                else:
+                    # calculate position in gene
+                    if strand == "forward":
+                        position_in_gene = position - gene_start_position
+                        oriented_gene_sequence = gene_sequence
+                        new_base = allele[3]
+                    else:
+                        position_in_gene = gene_end_position - position
+                        oriented_gene_sequence = calculate_reverse_complement_sequence(
+                            gene_sequence
+                        )
+                        new_base = NUCLEOTIDE[allele[3]]
+
+                    # calculate codon start
+                    codon_start = int(position_in_gene / 3) * 3
+                    codon = oriented_gene_sequence[codon_start : codon_start + 3]
+                    codon_list = list(codon)
+                    position_in_codon = position_in_gene % 3
+                    codon_list[position_in_codon] = new_base
+                    new_codon = "".join(codon_list)
+                    if CODON[codon] == CODON[new_codon]:
+                        var_type = "synonymous"
+                    else:
+                        if CODON[new_codon] == "!":
+                            var_type = "nonsense"
+                        else:
+                            var_type = "missense"
+    else:
+        var_type = "unknown"
+
+    return gene_name, var_type
