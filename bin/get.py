@@ -553,16 +553,36 @@ def parse_args():
 def main():
     """Main function."""
     args = parse_args()
-    get_fastqs(
-        args.accession,
-        args.group_by_experiment,
-        args.group_by_sample,
-        args.outdir,
-        args.max_attempts,
-        args.sleep,
-        args.force,
-        args.prefix,
-    )
+
+    if args.accession.endswith(".txt"):
+        with open(args.accession, "r") as fh:
+            for line in fh:
+                accession = line.strip()
+                if accession:
+                    print(f"Working on accession {accession}...")
+                    get_fastqs(
+                        accession,
+                        args.group_by_experiment,
+                        args.group_by_sample,
+                        args.outdir,
+                        args.max_attempts,
+                        args.sleep,
+                        args.force,
+                        args.prefix,
+                    )
+    else:
+        get_fastqs(
+            args.accession,
+            args.group_by_experiment,
+            args.group_by_sample,
+            args.outdir,
+            args.max_attempts,
+            args.sleep,
+            args.force,
+            args.prefix,
+        )
+
+    return None
 
 
 if __name__ == "__main__":
