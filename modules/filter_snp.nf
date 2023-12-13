@@ -12,7 +12,8 @@ process FILTER_SNP {
   tuple val(group), path('*.txt'), emit: snp_ch
 
   script:
+  def name = group.split('/')[-1][0..1]
   """
-  ../../../bin/filter_snp.py -i ${timecourse} -p ${group}
+  ../../../bin/filter_snp.py -i ${timecourse} -p ${name}
   """
 }

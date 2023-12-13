@@ -16,10 +16,11 @@ process PVAL {
   tuple val(group), path('*.txt'), emit: sign_mutations
 
   script:
+  def name = group.split('/')[-1][0..1]
   """
   g++ --std=c++11 -O3 ../../../pv/main.cpp -o ../../../pv/calculate_pval
   wait
 
-  cat ${mutations} | ../../../pv/calculate_pval >  ${group}_likelihood_timecourse.txt
+  cat ${mutations} | ../../../pv/calculate_pval >  ${name}_likelihood_timecourse.txt
   """
 }

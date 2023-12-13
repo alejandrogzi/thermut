@@ -9,10 +9,11 @@ process ANNOTATE {
   tuple val(group), path(likelihood)
 
   output:
-  tuple val(group), path('*.txt'), emit annotate_ch
+  tuple val(group), path('*.txt'), emit: annotate_ch
 
   script:
+  def name = group.split('/')[-1][0..1]
   """
-  ../../../bin/annotate.py --likelihood ${likelihood} --population ${group} --out ${group}.annotated.timecourse.txt
+  ../../../bin/annotate.py --likelihood ${likelihood} --population ${name} --out ${name}.annotated.timecourse.txt
   """
 }
