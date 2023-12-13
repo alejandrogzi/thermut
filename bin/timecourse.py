@@ -29,7 +29,7 @@ import gzip
 
 FIRST_POSITION = 0
 LAST_POSITION = 4629812
-METADATA = "../meta/metadata.txt"
+METADATA = "../../../meta/metadata.txt"
 MIN_ALLELE_FREQ = 2
 MIN_DEPTH = 10
 MIN_EMP_FREQ = 0.05
