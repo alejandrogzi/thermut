@@ -5,7 +5,7 @@ nextflow.enable.dsl=2
 
 process TRIM {
 
-    cpus 6
+    cpus 3
 
     input:
         tuple val(sample), path(fq)
