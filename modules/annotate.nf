@@ -14,6 +14,6 @@ process ANNOTATE {
   script:
   def name = group.split('/')[-1][0..1]
   """
-  ../../../bin/annotate.py --likelihood ${likelihood} --population ${name} --out ${name}.annotated.timecourse.txt
+  ../../../bin/annotate.py --likelihood ${likelihood} --population ${name} --output ${name}.annotated.timecourse.txt
   """
 }
