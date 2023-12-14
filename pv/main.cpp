@@ -239,9 +239,9 @@ int main(int argc, char *argv[]){
         // print passed (but not necessarily significant) trajectory records 
         // (significance filtering happens later)
         if(passed_filter){
-            std::cout << line << ", ";
-            std::cout << autocorrelation << " " << combined_pvalue << ", ";
-            std::cout << deletion_idx << " " << fold_reduction << " " << deletion_pvalue << ", ";
+            std::cout << line << ",";
+            std::cout << autocorrelation << " " << combined_pvalue << ",";
+            std::cout << deletion_idx << " " << fold_reduction << " " << deletion_pvalue << ",";
             std::cout << duplication_idx << " " << fold_increase << " " << duplication_pvalue << std::endl;  
         }  
     } // end of while loop over lines
