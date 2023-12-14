@@ -41,10 +41,10 @@ MASKS = parsers.parse_mask_list()
 
 def main():
     args = parse_args()
-    annotate(args.likelihood, args.population)
+    annotate(args.likelihood, args.population, args.output)
 
 
-def set_pval(likelihood: str, population: str) -> float:
+def set_pval(likelihood: str) -> float:
     """Set p-value for a given group of populations [mutators, nonmutators]
 
     @param: likelihood
@@ -52,12 +52,13 @@ def set_pval(likelihood: str, population: str) -> float:
     @return: p-value
     """
 
-    pvas = np.array([])
+    # pvals = np.array([])
+    pvals = []
     with open(likelihood, "r") as file:
         for line in file:
             fields = line.strip().split(",")
             pos = int(fields[1])
-            pva = float(fields[6].split()[1])  # combined p-value
+            pval = float(fields[6].split()[1])  # combined p-value
             corr = float(fields[6].split()[0])
 
             if pos == 0:
@@ -66,11 +67,15 @@ def set_pval(likelihood: str, population: str) -> float:
             if genome.annotate_gene(pos, POS_MAP) == "repeat":
                 continue
 
-            np.append(pvas, pva)
+            # np.append(pvals, pval)
+            pvals.append(pval)
 
-    for v in sorted(pvas, reverse=True):
-        if len(pvas) * v / (pvas <= v).sum() <= FDR:
+    pvals = np.array(pvals)
+    for v in sorted(pvals, reverse=True):
+        if len(pvals) * v / (pvals <= v).sum() <= FDR:
             return v
+        else:
+            return FDR
 
 
 def annotate(likelihood: str, population: str, out: str) -> None:
@@ -80,7 +85,8 @@ def annotate(likelihood: str, population: str, out: str) -> None:
     @param: population
     """
 
-    THRESHOLD_PVAL = set_pval(likelihood, population)
+    THRESHOLD_PVAL = set_pval(likelihood)
+    # print("Threshold p-value: %f" % THRESHOLD_PVAL)
     num_total = 0  # trajectories
     num_passed = 0  # trajectories passed
 
@@ -98,8 +104,8 @@ def annotate(likelihood: str, population: str, out: str) -> None:
             times = np.array(fields[3].strip().split(), dtype=float) * 1000
             alts = np.array(fields[4].strip().split(), dtype=float)
             depths = np.array(fields[5].strip().split(), dtype=float)
-            stat = float(fields[6][0])
-            pval = float(fields[6][1])
+            stat = float(fields[6].split()[0])
+            pval = float(fields[6].split()[1])
 
             deletion_idx, fold_reduction, deletion_pvaue = tuple(
                 [float(subitem) for subitem in fields[7].split()]
@@ -151,7 +157,7 @@ def annotate(likelihood: str, population: str, out: str) -> None:
             # annotate mutation
             gene_name, var_type = genome.annotate_variant(pos, allele, GENES, POS_MAP)
 
-            # if pvaue is lower than threshold and not a weird insertion gene
+            # if pvalue is lower than threshold and not a weird insertion gene
             passed_str = "FAIL"
 
             if (
@@ -275,7 +281,6 @@ def annotate(likelihood: str, population: str, out: str) -> None:
                     passed_str = "PASS"
                     num_passed += 1
 
-            # print to CSV file
             print_strings = [
                 str(pos),
                 gene_name,
