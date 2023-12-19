@@ -1,17 +1,19 @@
 # thermut
 
+This repository stores the code to reproduce the analysis of the project "The role of the thermodynamic pressure in Lensky's long-term evolution experiment"
+
 To start this project clone this repo and do:
 
-```
+```bash
 git clone https://github.com/alejandrogzi/thermut && cd thermut
 ./grouper.sh
 ```
 
-to build the population groups.
+to create the environment and build the population groups.
 
 Your directory should now look like this:
 
-```
+```bash
 ...
 ├── groups
 │   ├── m1.txt
@@ -28,14 +30,26 @@ Your directory should now look like this:
 │   ├── p4.txt
 │   ├── p5.txt
 │   ├── p6.txt
-│   └── test.txt
+│   
 ...
 ```
 Next, create the enviroment:
 
-```
+```bash
 conda env create -f env.yml
 conda activate thermut
 ```
 
+Then, you are ready to run the pipeline:
+
+```nextflow
+nextflow run main.nf --dir /path/to/dir --meta /path/to/meta.csv --group /path/to/group.csv --gbk /path/to/gbk --fasta /path/to/fasta
+```
+
+Where:
+- dir = directory containing fastq files
+- meta = metadata file (./meta/metadata.txt)
+- group = group file (a list of samples per population produced by ./grouper.sh)
+- gbk = reference genbank file (./supp/REL606.6.gbk)
+- fasta = reference fasta file (./supp/REL606.6.fasta)
 
