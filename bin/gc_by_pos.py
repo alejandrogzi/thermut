@@ -25,8 +25,8 @@ from Bio import SeqIO
 
 # -----------------------------------------------------
 
-FASTA = "/home/alejandro/Documents/projects/zimic/lensky/ref_genome/REL606.fasta"
-GBK = "/home/alejandro/Documents/projects/zimic/lensky/ref_genome/REL606.gbk"
+FASTA = "../../../supp/REL606.fasta"
+GBK = "../../../supp/REL606.gbk"
 
 # -----------------------------------------------------
 
