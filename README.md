@@ -42,7 +42,7 @@ conda activate thermut
 
 Then, you are ready to run the pipeline:
 
-```nextflow
+```bash
 nextflow run main.nf --dir /path/to/dir --meta /path/to/meta.csv --group /path/to/group.csv --gbk /path/to/gbk --fasta /path/to/fasta
 ```
 
