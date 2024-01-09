@@ -25,8 +25,8 @@ from Bio import SeqIO
 
 # -----------------------------------------------------
 
-FASTA = "../../../supp/REL606.fasta"
-GBK = "../../../supp/REL606.gbk"
+FASTA = "../supp/REL606.fasta"
+GBK = "../supp/REL606.gbk"
 
 # -----------------------------------------------------
 
@@ -235,3 +235,7 @@ def parse_args():
         "-p", "--pos", help="Position in codon", type=int, metavar="INT", required=True
     )
     return parser.parse_args()
+
+
+if __name__ == "__main__":
+    main()
