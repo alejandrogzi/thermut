@@ -37,7 +37,7 @@ def main():
     gc = make_gc_timecourse(dfs)
 
 
-def format_timecourse(path: str) -> pd.DataFrame:
+def format_timecourse_old(path: str) -> pd.DataFrame:
     data = pd.read_csv(path)
     genes = get_start_end_coords()
 
