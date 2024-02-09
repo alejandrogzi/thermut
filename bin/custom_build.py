@@ -54,6 +54,47 @@ def main() -> (pd.DataFrame, np.array):
     genome_vec = np.array([0]*GENOME_SIZE)
     genome_vec[counts["Position"].to_list()] = counts["count"]
 
+    fig, (ax1, ax2, ax3) = plt.subplots(1,3, figsize=(16,4))
+    
+    ax1.set_title("Mutation distribution across genome")
+    ax1.set_xlim(0,4629812)
+    ax1.set_xlabel("Genome pos [bp]")
+
+    ax2.set_title("Mutation distribution across genome")
+    ax2.set_xlim(0,4629812)
+    ax2.set_xlabel("Genome pos [bp]")
+
+    ax3.set_title("KS-statistic vs p-value")
+    ax3.set_xlabel("p-value")
+    ax3.set_ylabel("KS-statistic")
+
+
+    for x in range(ITERATIONS):
+        vec1 = np.random.choice(counts.index, size=SIZE, replace=False)
+        set1 = counts.iloc[vec1]
+        
+        # generate the complementary subset for set2
+        all_indices = set(counts.index)
+        selected_indices = set(vec1)
+        complement_indices = np.array(list(all_indices - selected_indices))
+        set2 = counts.iloc[complement_indices]
+
+        set1["Position"].plot(kind="density", ax=ax1, bw_method=0.09, alpha=.2, color="blue", linestyle="dashed")
+        set2["Position"].plot(kind="density", ax=ax2, bw_method=0.09, alpha=.2, color="red", linestyle="dashed")
+
+        # kolmogorov-smirnov test
+        ks_statistic, p_value = ks_2samp(set1["Position"].sort_values(), set2["Position"].sort_values())
+        ax3.scatter(p_value, ks_statistic, color="grey", alpha=.5)
+        ax3.axvline(x=0.05, color="red")
+
+    plt.tight_layout(pad=2.5)
+    plt.savefig(
+    "./dist_ks_sims.pdf",
+    format="pdf",
+    bbox_inches="tight",
+    dpi=300,
+)  
+
     return (counts, genome_vec)
 
 
